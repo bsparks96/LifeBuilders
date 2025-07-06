@@ -1,5 +1,6 @@
 package application;
 
+import controllers.HeaderController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,9 +12,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+    	HeaderController.setMainStage(primaryStage);
     	Parent root = FXMLLoader.load(getClass().getResource("/views/Login.fxml"));
-        primaryStage.setTitle("Life Builders - Login");
-        primaryStage.setScene(new Scene(root, 450, 300));
+        primaryStage.setTitle("Life Builders");
+        primaryStage.setScene(new Scene(root, 850, 600));
         primaryStage.show();
     }
 

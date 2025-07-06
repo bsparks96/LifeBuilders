@@ -15,8 +15,8 @@
     <Text text="Life Builders" style="-fx-font-size: 28px;" />
 
     <HBox spacing="40" alignment="CENTER">
-        <Button text="Student Records"
-                onAction="#handleStudentRecords"
+        <Button text="Client Records"
+                onAction="#handleClientRecords"
                 minWidth="140" minHeight="100" />
         <Button text="Training Courses"
                 onAction="#handleTrainingCourses"

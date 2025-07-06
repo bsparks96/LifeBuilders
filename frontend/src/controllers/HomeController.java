@@ -2,12 +2,19 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
+import javafx.scene.Node;
 
 public class HomeController {
 
+    
     @FXML
-    private void handleStudentRecords(ActionEvent event) {
-        // TODO: Load Student Records page (API request or scene switch)
+    private void handleClientRecords(ActionEvent event) {
+        HeaderController.pushScene("ClientForm.fxml");
     }
 
     @FXML
