@@ -74,7 +74,7 @@ public class HeaderController {
     
     @FXML
     public void initialize() {
-        updateNavigationButtons();
+        //updateNavigationButtons();
     }
 
     @FXML

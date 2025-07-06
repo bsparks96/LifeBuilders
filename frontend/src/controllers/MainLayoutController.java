@@ -48,7 +48,7 @@ public class MainLayoutController {
         try {
             loader.load();
             HeaderController controller = loader.getController();
-            controller.updateNavigationButtons();
+            //controller.updateNavigationButtons();
         } catch (IOException e) {
             e.printStackTrace();
         }
