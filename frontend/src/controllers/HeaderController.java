@@ -55,9 +55,14 @@ public class HeaderController {
             MainLayoutController layoutController = mainLoader.getController();
             layoutController.setContent(viewRoot);
 
+            double currentWidth = mainStage.getWidth();
+            double currentHeight = mainStage.getHeight();
+
             Scene newScene = new Scene(mainRoot);
-            newScene.setUserData(fxml); // Track which page is currently shown
+            newScene.setUserData(fxml);
             mainStage.setScene(newScene);
+            mainStage.setWidth(currentWidth);
+            mainStage.setHeight(currentHeight);
             mainStage.show();
             
             currentScene = fxml;
@@ -121,11 +126,11 @@ public class HeaderController {
     public void updateNavigationButtons() {
     	String current = getCurrentSceneFxml();
         boolean isHome = isCurrentScene("Home.fxml");
-
+/*
         System.out.println("Current Scene: " + current);
         System.out.println("Is Home: " + isHome);
         System.out.println("Back Stack: " + historyStack);
-        System.out.println("Forward Stack: " + forwardStack);
+        System.out.println("Forward Stack: " + forwardStack); */
         backButton.setDisable(historyStack.isEmpty());
         forwardButton.setDisable(forwardStack.isEmpty());
         homeButton.setDisable(isHome);

@@ -19,7 +19,7 @@ public class HomeController {
 
     @FXML
     private void handleTrainingCourses(ActionEvent event) {
-        // TODO: Load Training Courses page
+        HeaderController.pushScene("CourseManagement.fxml");
     }
 
     @FXML
