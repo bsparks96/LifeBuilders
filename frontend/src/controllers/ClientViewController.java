@@ -1,9 +1,12 @@
 package controllers;
 
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import models.Client;
 
 public class ClientViewController {
 
@@ -24,8 +27,14 @@ public class ClientViewController {
 
     @FXML
     public void initialize() {
-        // Populate placeholder clients for now
-        clientList.getItems().addAll("Joe Schmo", "Albert", "Frank Ocean", "Doc Pepp", "Crazy Steve");
+        try {
+            List<Client> clients = services.ClientService.fetchAllClients();
+            for (Client c : clients) {
+                clientList.getItems().add(c.getFullName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         clientList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
@@ -34,11 +43,9 @@ public class ClientViewController {
         });
 
         sortAlphaButton.setOnAction(e -> clientList.getItems().sort(String::compareToIgnoreCase));
-        sortRecentButton.setOnAction(e -> {
-            // Placeholder: simulate by reversing
-            FXCollections.reverse(clientList.getItems());
-        });
+        sortRecentButton.setOnAction(e -> FXCollections.reverse(clientList.getItems()));
     }
+
 
     private void loadClientInfo(String clientName) {
         // Stub data for now

@@ -8,25 +8,35 @@ USE LifeBuilders;
 -- TABLE: Users
 -- ========================
 CREATE TABLE Users (
-    userID INT PRIMARY KEY,  -- Starts at 11111
+    userID INT PRIMARY KEY auto_increment,  -- Starts at 11111
     username VARCHAR(100) NOT NULL UNIQUE,
     firstName VARCHAR(100),
     lastName VARCHAR(100),
-    userRole VARCHAR(50)
-);
+    userRole ENUM('Admin', 'Staff', 'Guest') DEFAULT 'Staff'
+) AUTO_INCREMENT = 10000;
 
 -- ========================
 -- TABLE: Clients
 -- ========================
 CREATE TABLE Clients (
-    clientID INT PRIMARY KEY,  -- Starts at 20000
+    clientID INT PRIMARY KEY auto_increment,  -- Starts at 20000
     clientFirstName VARCHAR(100),
+    clientMiddleInitial VARCHAR(1),
     clientLastName VARCHAR(100),
-    clientEmail VARCHAR(255),
+    clientEmail VARCHAR(255) UNIQUE,
     clientDOB DATE,
     clientSSN CHAR(9),  -- Consider encryption for real deployment
-    clientGender VARCHAR(50)
-);
+    clientGender VARCHAR(50),
+    clientEducation VARCHAR(21)
+) AUTO_INCREMENT = 20000;
+
+CREATE TABLE ClientIncarcerationPeriods (
+	incarcerationPeriodID INT PRIMARY KEY auto_increment,
+    clientID INT,
+    incarcerationStartDate DATE,
+    incarcerationEndDate DATE,
+    FOREIGN KEY (clientID) REFERENCES Clients(clientID)
+);    
 
 -- ========================
 -- TABLE: ClientHasPreAssessments
@@ -52,28 +62,37 @@ CREATE TABLE ClientHasPostAssessments (
 -- TABLE: Courses
 -- ========================
 CREATE TABLE Courses (
-    courseID INT PRIMARY KEY,
+    courseID INT PRIMARY KEY auto_increment,
     courseName VARCHAR(200),
-    courseDescription TEXT,
+    courseDescription TEXT NULL,
     courseLength INT  -- in days or hours
+);
+
+CREATE TABLE CoursesHasInstructors (
+	courseID INT,
+    userID INT,
+    PRIMARY KEY (courseID, userID),
+    FOREIGN KEY (userID) REFERENCES Users(userID),
+    FOREIGN KEY (courseID) REFERENCES Courses(courseID)
 );
 
 -- ========================
 -- TABLE: CourseIterations
 -- ========================
 CREATE TABLE CourseIterations (
-    iterationID INT PRIMARY KEY,
+    iterationID INT PRIMARY KEY auto_increment,
     courseID INT,
-    courseInstructorID INT,
     courseStartDate DATE,
     courseEndDate DATE,
-    FOREIGN KEY (courseID) REFERENCES Courses(courseID),
-    FOREIGN KEY (courseInstructorID) REFERENCES Users(userID)
+    courseLocation VARCHAR(255) NULL,
+    FOREIGN KEY (courseID) REFERENCES Courses(courseID)
 );
 
 -- ========================
 -- TABLE: CourseHasClients
 -- ========================
+
+/*
 CREATE TABLE CourseHasClients (
     iterationID INT,
     clientID INT,
@@ -81,6 +100,24 @@ CREATE TABLE CourseHasClients (
     PRIMARY KEY (iterationID, clientID),
     FOREIGN KEY (iterationID) REFERENCES CourseIterations(iterationID),
     FOREIGN KEY (clientID) REFERENCES Clients(clientID)
+);  */
+
+CREATE TABLE CourseHasClients (
+    iterationID INT NULL,
+    clientID INT,
+    courseID INT NOT NULL,         -- New: required for historical entries
+    startDate DATE,                -- optional if using iterationID
+    endDate DATE,                  -- optional if using iterationID
+    completionDate DATE,           -- required always
+    PRIMARY KEY (clientID, completionDate),
+    FOREIGN KEY (iterationID) REFERENCES CourseIterations(iterationID),
+    FOREIGN KEY (courseID) REFERENCES Courses(courseID),
+    FOREIGN KEY (clientID) REFERENCES Clients(clientID),
+    CHECK (
+        (iterationID IS NOT NULL AND courseID IS NULL AND startDate IS NULL AND endDate IS NULL)
+        OR
+        (iterationID IS NULL AND courseID IS NOT NULL AND startDate IS NOT NULL AND endDate IS NOT NULL)
+    )
 );
 
 -- ========================

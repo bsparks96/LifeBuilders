@@ -24,6 +24,6 @@ public class HomeController {
 
     @FXML
     private void handleStatistics(ActionEvent event) {
-        // TODO: Load Statistics page
+        HeaderController.pushScene("Statistics.fxml");
     }
 }

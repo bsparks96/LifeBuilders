@@ -9,7 +9,10 @@ module LifeBuilders_FrontEnd {
     requires javafx.fxml;
 	requires javafx.base;
 	requires javafx.graphics;
+	requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
 
     opens application to javafx.graphics, javafx.fxml;
     opens controllers to javafx.fxml;
+    opens models to com.fasterxml.jackson.databind;
 }
