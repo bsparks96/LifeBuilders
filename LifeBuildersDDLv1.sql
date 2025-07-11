@@ -88,38 +88,22 @@ CREATE TABLE CourseIterations (
     FOREIGN KEY (courseID) REFERENCES Courses(courseID)
 );
 
--- ========================
--- TABLE: CourseHasClients
--- ========================
 
-/*
+
 CREATE TABLE CourseHasClients (
+    clientID INT NOT NULL,
+    courseID INT NOT NULL,
     iterationID INT,
-    clientID INT,
-    completionDate DATE,
-    PRIMARY KEY (iterationID, clientID),
-    FOREIGN KEY (iterationID) REFERENCES CourseIterations(iterationID),
-    FOREIGN KEY (clientID) REFERENCES Clients(clientID)
-);  */
+    startDate DATE,
+    endDate DATE,
+    completionDate DATE,  -- nullable is okay
 
-CREATE TABLE CourseHasClients (
-    iterationID INT NULL,
-    clientID INT,
-    courseID INT NOT NULL,         -- New: required for historical entries
-    startDate DATE,                -- optional if using iterationID
-    endDate DATE,                  -- optional if using iterationID
-    completionDate DATE,           -- required always
-    PRIMARY KEY (clientID, completionDate),
-    FOREIGN KEY (iterationID) REFERENCES CourseIterations(iterationID),
-    FOREIGN KEY (courseID) REFERENCES Courses(courseID),
+    PRIMARY KEY (clientID, courseID),
+
     FOREIGN KEY (clientID) REFERENCES Clients(clientID),
-    CHECK (
-        (iterationID IS NOT NULL AND courseID IS NULL AND startDate IS NULL AND endDate IS NULL)
-        OR
-        (iterationID IS NULL AND courseID IS NOT NULL AND startDate IS NOT NULL AND endDate IS NOT NULL)
-    )
+    FOREIGN KEY (courseID) REFERENCES Courses(courseID),
+    FOREIGN KEY (iterationID) REFERENCES CourseIterations(iterationID)
 );
-
 -- ========================
 -- TABLE: CommunityEvents
 -- ========================

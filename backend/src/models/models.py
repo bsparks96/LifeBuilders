@@ -36,6 +36,11 @@ class Course(Base):
     courseDescription = Column(String, nullable=True)
     courseLength = Column(Integer)
 
+class CourseHasInstructors(Base):
+    __tablename__ = "CoursesHasInstructors"
+    courseID = Column(Integer, ForeignKey("Courses.courseID"), primary_key=True)
+    userID = Column(Integer, ForeignKey("Users.userID"), primary_key=True)
+
 class CourseIterations(Base):
     __tablename__ = "CourseIterations"
 

@@ -62,7 +62,7 @@
     <VBox spacing="10" fx:id="coursesBox">
         <Label text="Courses Completed:" />
         <HBox spacing="10">
-            <TextField fx:id="courseName1" promptText="Course Name"/>
+            <ComboBox fx:id="courseCombo1" promptText="Course Name" editable="true"/>
             <DatePicker fx:id="courseDate1"/>
             <Button text="+" onAction="#addCourse"/>
         </HBox>

@@ -1,11 +1,16 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import services.ClientService;
+import services.UserService;
+import utils.CourseCache;
 import javafx.scene.Parent;
 import javafx.scene.Node;
 
@@ -34,10 +39,24 @@ public class MainLayoutController {
             HBox header = loader.load();
             headerControllerInstance = loader.getController();
             this.headerController.getChildren().setAll(header.getChildren());
+            try {
+                Map<String, Integer> courseMap = ClientService.fetchAllCourses();
+                CourseCache.setAvailableCourses(courseMap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                Map<String, Integer> userMap = UserService.fetchAllUsers();  // or UserService if you make one
+                utils.UserCache.setAvailableUsers(userMap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
+    
     
     public void setContent(Node content) {
         contentArea.getChildren().setAll(content);
